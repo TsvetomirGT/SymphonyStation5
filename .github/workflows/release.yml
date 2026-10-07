@@ -1,0 +1,80 @@
+# One-click release: Actions tab -> "Release" -> Run workflow -> enter a tag.
+#
+# Builds the native title on Ubuntu (the vendored tooling targets Linux; the
+# Makefile's Homebrew PATH entries simply don't exist there), zips
+# dist/<TITLE_ID>/ and publishes a GitHub Release with that zip and libc.prx.
+# Every dependency is a pinned, checksummed public download into .deps/.
+
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag, e.g. v0.1.0"
+        required: true
+      prerelease:
+        description: "Mark as pre-release"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write # create the tag and the release
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check tag
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          [[ $TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]] || {
+            echo "tag must look like v1.2.3 or v1.2.3-beta.1" >&2; exit 1; }
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null; then
+            echo "tag $TAG already exists" >&2; exit 1
+          fi
+
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            clang-18 lld-18 llvm-18 libclang-rt-18-dev \
+            ninja-build ccache pkgconf wget unzip zip python3
+
+      - name: Cache pinned dependencies
+        uses: actions/cache@v4
+        with:
+          path: .deps
+          key: deps-${{ hashFiles('tools/setup-native-dependencies.sh', 'tools/setup-pacbrew-dependencies.sh', 'tools/fetch-opengl-sdk.sh', 'tools/fetch-compiler-rt.sh') }}
+
+      - name: Build title
+        run: make app
+
+      - name: Package
+        id: package
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          title_id=$(python3 -c 'import json;print(json.load(open("sce_sys/param.json"))["titleId"])')
+          # A fresh checkout has no saved login, but never ship one by accident.
+          if [[ -e dist/$title_id/config.json ]]; then
+            echo "dist/$title_id/config.json must not be released" >&2; exit 1
+          fi
+          zip_name="SymphonyStation5-$TAG.zip"
+          (cd dist && zip -r "../$zip_name" "$title_id")
+          sha256sum "$zip_name" runtime/libc.prx > SHA256SUMS
+          echo "zip=$zip_name" >> "$GITHUB_OUTPUT"
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+          PRERELEASE: ${{ inputs.prerelease }}
+        run: |
+          flags=(--generate-notes --target "$GITHUB_SHA" --title "$TAG")
+          [[ $PRERELEASE == true ]] && flags+=(--prerelease)
+          gh release create "$TAG" "${{ steps.package.outputs.zip }}" \
+            runtime/libc.prx SHA256SUMS "${flags[@]}"
