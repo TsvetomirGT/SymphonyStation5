@@ -1,3 +1,7 @@
+// SymphonyStation5
+// Copyright (C) 2026 tsvetomirgt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // Compact MD5 (RFC 1321).
 
 #include "util/md5.h"

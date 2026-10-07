@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-SymphonyStation5 is a Navidrome (OpenSubsonic API) music client for a **jailbroken PS5**, built as a **native PS5 title**: home-screen tile **PPSA17641**, installed by ShadowMountPlus from `/data/homebrew/PPSA17641/`. The UI uses **ps5-homebrew-ui** (OpenGL 4.6 through ps5-opengl) in its **Fresh** theme. The owner's main goal is **learning** the PS5 homebrew toolchain, so prefer explaining *why* over hiding details. The roadmap lives in `~/.claude/plans/i-want-to-learn-recursive-valiant.md`.
+SymphonyStation5 is a Navidrome (OpenSubsonic API) music client for a **jailbroken PS5**, built as a **native PS5 media app**: home-screen tile **PPSA17641** in the **Media** tab (`applicationCategoryType` 65536, badge 2, no `gameIntent`; switch with `APP_CATEGORY=media tools/init-project.sh`), installed by ShadowMountPlus from `/data/homebrew/PPSA17641/`. The UI uses **ps5-homebrew-ui** (OpenGL 4.6 through ps5-opengl) in its **Fresh** theme. The owner's main goal is **learning** the PS5 homebrew toolchain, so prefer explaining *why* over hiding details. The roadmap lives in `~/.claude/plans/i-want-to-learn-recursive-valiant.md`.
 
 Development is **console-first**: the UI only runs on the PS5, because macOS has no OpenGL 4.5. The platform-independent core is unit-tested on the Mac.
 
@@ -36,6 +36,7 @@ Host prerequisites (macOS): `brew install llvm@18 coreutils findutils gnu-sed ba
   - `assets/fonts` (baked `.huifont`) and `assets/audio/sfx`;
   - `tooling/` and `tools/`. The kit's own `docs/` and `AGENTS.md` are the reference for the component APIs.
 - `src/native/`: our native-only libc gaps. `console_curl.c` (from ps5-native-app-boilerplate) covers getaddrinfo on sceNetResolver, `__wrap_fcntl`, the CA list and non-blocking sockets. `runtime.cpp` covers nl_langinfo, ___mb_cur_max, strcasestr and arc4random.
+- Licensing: the project is GPL-3.0-or-later (`LICENSE`); `THIRD_PARTY_NOTICES.md` lists every component and `licenses/` holds their texts. New own files get the `Copyright (C) 2026 tsvetomirgt` + `SPDX-License-Identifier: GPL-3.0-or-later` header; a new linked library needs a row and its licence text.
 - `third_party/nlohmann/json.hpp`: used with `JSON_NOEXCEPTION`, since the native build has no exceptions. Use `parse(..., allow_exceptions=false)` and `dump(..., error_handler_t::replace)`.
 
 `tools/build.sh` compiles **every** `.c/.cpp` under `src/` with `-DNAVI_NATIVE`, C++20, `-fno-exceptions -fno-rtti`. A new source file is picked up automatically, so keep desktop-only code out of `src/`.
@@ -44,6 +45,7 @@ Host prerequisites (macOS): `brew install llvm@18 coreutils findutils gnu-sed ba
 
 - `tools/build.sh` sorts the SDK stub list glibc-style. lld binds each import to the **first** stub defining it, and macOS glob order put `libkernel_stub_weak.so` (soname `libkernel_web.sprx`) before `libkernel.so`. That made `open()` a null import in the native title.
 - `tools/build.sh` takes `APP_WRAP_SYMBOLS` (curl needs `--wrap=fcntl`).
+- `tools/build.sh` copies `LICENSE`, `THIRD_PARTY_NOTICES.md`, `licenses/` and the `APP_LICENSE_FILES` entries (the ps5-opengl SDK's licence texts) into the title folder.
 - `tools/setup-native-dependencies.sh` builds zlib with `ARFLAGS=rc` (Darwin's `libtool -o` breaks `llvm-ar`).
 - `tools/prepare-opengl.sh` falls back to `tools/fetch-compiler-rt.sh` for the builtins archive.
 

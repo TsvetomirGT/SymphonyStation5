@@ -1,5 +1,8 @@
 // SymphonyStation5 - the PS5 system on-screen keyboard (libSceImeDialog),
 // loaded at runtime. Native title only; see system_keyboard.cpp.
+// Copyright (C) 2026 tsvetomirgt
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #pragma once
 
 #include <memory>

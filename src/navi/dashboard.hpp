@@ -1,5 +1,8 @@
 // SymphonyStation5 - the main screen once logged in: a tab bar on top (Home,
 // Albums, Artists, Settings, Now Playing) over the selected view.
+// Copyright (C) 2026 tsvetomirgt
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #pragma once
 
 #include "core/input.hpp"

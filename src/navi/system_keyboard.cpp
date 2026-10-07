@@ -1,3 +1,7 @@
+// SymphonyStation5
+// Copyright (C) 2026 tsvetomirgt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // System on-screen keyboard (IME dialog). Parked: the login screen uses the
 // kit's controller keyboard; this is the planned upgrade. On hardware,
 // Begin() reported "Keyboard unavailable" (cause not yet known).
