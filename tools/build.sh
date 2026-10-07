@@ -263,6 +263,19 @@ for asset in icon0.png pic0.dds pic1.dds snd0.at9; do
     [[ -f $root/sce_sys/$asset ]] && cp "$root/sce_sys/$asset" "$app/sce_sys/$asset"
 done
 [[ ! -d $root/assets ]] || cp -a "$root/assets" "$app/assets"
+# SymphonyStation5: ship the licence texts with the title. APP_LICENSE_FILES
+# adds "name:path" pairs (files or directories) under licenses/<name>.
+for file in LICENSE THIRD_PARTY_NOTICES.md; do
+    [[ ! -f $root/$file ]] || cp "$root/$file" "$app/$file"
+done
+[[ ! -d $root/licenses ]] || cp -a "$root/licenses" "$app/licenses"
+for entry in ${APP_LICENSE_FILES:-}; do
+    name=${entry%%:*} source=${entry#*:}
+    [[ $source = /* ]] || source="$root/$source"
+    [[ -e $source ]] || { echo "missing licence file: $source" >&2; exit 1; }
+    mkdir -p "$app/licenses/$name"
+    cp -a "$source" "$app/licenses/$name/"
+done
 # Directory listing returns nothing under /app0 on the console, so each
 # audio folder carries an index of its files (read by save::list_files).
 for dir in "$app/assets/audio/music" "$app"/assets/audio/sfx/*/; do

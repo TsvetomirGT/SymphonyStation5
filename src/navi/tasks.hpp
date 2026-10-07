@@ -1,4 +1,7 @@
 // SymphonyStation5 - background work with completions on the UI thread.
+// Copyright (C) 2026 tsvetomirgt
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #pragma once
 
 #include <condition_variable>

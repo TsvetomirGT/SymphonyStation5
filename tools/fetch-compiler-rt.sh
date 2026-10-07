@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # SymphonyStation5 - fetch LLVM 18's x86_64 compiler-rt builtins for macOS hosts.
+# Copyright (C) 2026 tsvetomirgt
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
 # The OpenGL link group (tools/prepare-opengl.sh) needs
 # libclang_rt.builtins-x86_64.a: target-independent helpers (128-bit

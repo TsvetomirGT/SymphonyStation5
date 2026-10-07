@@ -1,4 +1,7 @@
 // SymphonyStation5 - album and artist pictures as GL textures.
+// Copyright (C) 2026 tsvetomirgt
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #pragma once
 
 #include "navi/tasks.hpp"

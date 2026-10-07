@@ -1,3 +1,7 @@
+// SymphonyStation5
+// Copyright (C) 2026 tsvetomirgt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // Small libc gaps a native PS5 title has to fill itself.
 //
 // PacBrew's libcurl/OpenSSL were built for payloads, which run with the

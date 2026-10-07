@@ -28,4 +28,4 @@ as a convenience asset.
 
 The complete source, reproduction procedure, and compatibility scope are in
 [`tooling/native`](../tooling/native) and
-[`docs/RUNTIME_SHIM.md`](../docs/RUNTIME_SHIM.md).
+`docs/RUNTIME_SHIM.md` in [ps5-native-app-boilerplate](https://github.com/blackbearreloaded/ps5-native-app-boilerplate).

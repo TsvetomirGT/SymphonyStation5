@@ -1,3 +1,7 @@
+// SymphonyStation5
+// Copyright (C) 2026 tsvetomirgt
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #include "navi/dashboard.hpp"
 
 #include "platform/ps5/system.hpp"

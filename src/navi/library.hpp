@@ -1,4 +1,7 @@
 // SymphonyStation5 - talks to the Navidrome server off the UI thread.
+// Copyright (C) 2026 tsvetomirgt
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #pragma once
 
 #include <memory>

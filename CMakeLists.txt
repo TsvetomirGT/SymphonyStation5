@@ -1,3 +1,7 @@
+# SymphonyStation5
+# Copyright (C) 2026 tsvetomirgt
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 cmake_minimum_required(VERSION 3.16)
 
 # Desktop (macOS) build of the platform-independent core and its unit tests.

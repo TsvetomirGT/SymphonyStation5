@@ -1,4 +1,6 @@
 # SymphonyStation5 - build entry points.
+# Copyright (C) 2026 tsvetomirgt
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
 #   make test               desktop unit tests for the core (macOS, CMake + ctest)
 #   make app                native PS5 title -> dist/<TITLE_ID>/
@@ -27,7 +29,8 @@ NATIVE_ENV      := PATH="$(NATIVE_PATH)" \
 	APP_STATIC_ARCHIVES=".deps/ps5-opengl/libps5opengl-group.a" \
 	APP_IMPORT_STUBS="$(OPENGL_SDK)/lib/libSceAgc.so $(OPENGL_SDK)/lib/libSceAgcDriver.so" \
 	PACBREW_PACKAGES="libcurl" \
-	APP_WRAP_SYMBOLS="fcntl"
+	APP_WRAP_SYMBOLS="fcntl" \
+	APP_LICENSE_FILES="ps5-opengl:$(OPENGL_SDK)/../LICENSE ps5-opengl:$(OPENGL_SDK)/../LICENSES ps5-opengl:$(OPENGL_SDK)/../THIRD_PARTY_NOTICES.md"
 
 .PHONY: all test desktop opengl app app-deploy app-undeploy app-launch klog clean
 

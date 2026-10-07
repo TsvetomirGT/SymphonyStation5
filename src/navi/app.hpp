@@ -1,5 +1,8 @@
 // SymphonyStation5 - the application: login and artist screens, drawn with
 // ps5-homebrew-ui in its Fresh theme.
+// Copyright (C) 2026 tsvetomirgt
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #pragma once
 
 #include "audio/mixer.hpp"

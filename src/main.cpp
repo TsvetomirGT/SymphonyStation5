@@ -1,4 +1,6 @@
 // SymphonyStation5 - entry point of the native PS5 title.
+// Copyright (C) 2026 tsvetomirgt
+// SPDX-License-Identifier: GPL-3.0-or-later
 //
 // Opens the display (OpenGL through ps5-opengl), the controller and audio,
 // then runs the app every frame: read input, update, play the sounds it asked
